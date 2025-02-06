@@ -1,3 +1,4 @@
+import 'package:contacts/views/maps.dart';
 import 'package:flutter/material.dart';
 import 'contact_list.dart';
 
@@ -23,6 +24,7 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Quadrante de "Contatos"
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
@@ -51,6 +53,34 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 20),
+                // Quadrante de "Mapa"
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MapSample()), // Tela do mapa
+                      );
+                    },
+                    child: Container(
+                      height: 120,
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Mapa',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
