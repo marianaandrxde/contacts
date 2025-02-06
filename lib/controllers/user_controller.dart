@@ -34,9 +34,6 @@ Future<Map<String, dynamic>?> loginUser(String email, String senha) async {
   return result.isNotEmpty ? result.first : null;
 }
 
-
-
-  // Função para retornar todos os usuários
   Future<List<Map<String, dynamic>>> fetchAllUsers() async {
     final db = await dbHelper.database;
     final List<Map<String, dynamic>> result = await db.query('users');

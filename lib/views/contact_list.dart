@@ -52,7 +52,7 @@ class ContactListScreen extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Contact List')),
+      appBar: AppBar(title: const Text('Lista de contatos')),
       body: FutureBuilder<List<Contact>>(
         future: _contacts,
         builder: (context, snapshot) {
@@ -61,7 +61,7 @@ class ContactListScreen extends StatefulWidget {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No contacts found.'));
+            return const Center(child: Text('Nenhum contato encontrado.'));
           } else {
             final contacts = snapshot.data!;
             return ListView.builder(

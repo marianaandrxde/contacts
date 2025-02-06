@@ -17,19 +17,16 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
 
-    // Exclui o banco de dados para reiniciar o desenvolvimento
-    // **Somente durante o desenvolvimento**
     await deleteDatabase(path);
 
     return await openDatabase(
       path,
-      version: 2, // Atualiza para a versão 2
+      version: 2, 
       onCreate: _createDB,
-      onUpgrade: _onUpgrade, // Lida com a atualização do banco
+      onUpgrade: _onUpgrade, 
     );
   }
 
-  // Função de criação do banco na primeira vez
   Future<void> _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE users (
@@ -50,10 +47,8 @@ class DatabaseHelper {
     ''');
   }
 
-  // Função para atualizar o banco quando a versão mudar
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
-      // Atualiza a tabela contacts para incluir latitude e longitude
       await db.execute('''
         ALTER TABLE contacts ADD COLUMN latitude REAL;
         ALTER TABLE contacts ADD COLUMN longitude REAL;

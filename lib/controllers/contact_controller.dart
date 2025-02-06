@@ -3,7 +3,6 @@ import 'package:contacts/models/contact.dart';
 class ContactController {
   final dbHelper = DatabaseHelper.instance;
 
-  // Função para adicionar um contato
   Future<void> addContact(Contact contact) async {
     final db = await dbHelper.database;
     await db.insert(
@@ -17,7 +16,6 @@ class ContactController {
     );
   }
 
-  // Função para atualizar um contato
   Future<int> updateContact(Contact contact) async {
     final db = await dbHelper.database;
     return await db.update(
@@ -28,7 +26,6 @@ class ContactController {
     );
   }
 
-  // Função para excluir um contato
   Future<int> deleteContact(int id) async {
     final db = await dbHelper.database;
     return await db.delete(
@@ -38,14 +35,12 @@ class ContactController {
     );
   }
 
-  // Função para buscar todos os contatos
   Future<List<Contact>> fetchAllContacts() async {
     final db = await dbHelper.database;
     final List<Map<String, dynamic>> result = await db.query('contacts');
     return result.map((map) => Contact.fromMap(map)).toList();
   }
 
-  // Função para buscar um contato por ID
   Future<Contact?> fetchContactById(int id) async {
     final db = await dbHelper.database;
     final result = await db.query(

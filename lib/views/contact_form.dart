@@ -90,7 +90,7 @@ class _ContactFormScreenState extends State<ContactFormScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _saveContact,
-              child: Text(widget.contactId == null ? 'Add Contact' : 'Save Changes'),
+              child: Text(widget.contactId == null ? 'Adicionar contato' : 'Salvar'),
             ),
           ],
         ),
