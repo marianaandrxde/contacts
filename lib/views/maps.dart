@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';  // Importando o pacote necessário
+import 'package:google_maps_flutter/google_maps_flutter.dart'; 
 import 'package:contacts/models/contact.dart';
-import 'package:contacts/controllers/contact_controller.dart'; // Importando o controller de contatos
+import 'package:contacts/controllers/contact_controller.dart'; 
 
 class MapSample extends StatefulWidget {
   const MapSample({super.key});
@@ -14,46 +14,40 @@ class MapSample extends StatefulWidget {
 class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
-  final ContactController _contactController = ContactController();  // Instância do controller de contatos
-
-  Set<Marker> _markers = {};  // Set para armazenar os marcadores
+  final ContactController _contactController = ContactController();  
+  Set<Marker> _markers = {};  
   CameraPosition _cameraPosition = const CameraPosition(
-    target: LatLng(-5.091949, -42.803453),  // Posição inicial para Teresina
+    target: LatLng(-5.091949, -42.803453),  
     zoom: 14.4746,
   );
 
   @override
   void initState() {
     super.initState();
-    _loadMarkers();  // Carregar os marcadores assim que o estado for iniciado
+    _loadMarkers(); 
   }
 
-  // Função para carregar os marcadores no mapa
   Future<void> _loadMarkers() async {
-    // Buscar todos os contatos
     List<Contact> contacts = await _contactController.fetchAllContacts();
 
-    // Criar um marcador para cada contato
     Set<Marker> markers = {};
     CameraPosition? firstMarkerPosition;
 
     for (var contact in contacts) {
       markers.add(Marker(
-        markerId: MarkerId(contact.id.toString()),  // ID único para cada marcador
-        position: LatLng(contact.latitude, contact.longitude),  // Posições do contato
-        infoWindow: InfoWindow(title: contact.nome, snippet: contact.email),  //
+        markerId: MarkerId(contact.id.toString()),  
+        position: LatLng(contact.latitude, contact.longitude),  
+        infoWindow: InfoWindow(title: contact.nome, snippet: contact.email),  
       ));
 
-      // Definir a posição da câmera para o primeiro marcador encontrado
       if (firstMarkerPosition == null) {
         firstMarkerPosition = CameraPosition(
           target: LatLng(contact.latitude, contact.longitude),
-          zoom: 14.4746,  // Definir o zoom para o primeiro marcador
+          zoom: 14.4746,  
         );
       }
     }
 
-    // Atualizar os marcadores no estado
     setState(() {
       _markers = markers;
       if (firstMarkerPosition != null) {
@@ -61,7 +55,6 @@ class MapSampleState extends State<MapSample> {
       }
     });
 
-    // Mover a câmera para o primeiro marcador, se houver
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_cameraPosition));
   }
@@ -74,11 +67,11 @@ class MapSampleState extends State<MapSample> {
       ),
       body: GoogleMap(
         mapType: MapType.hybrid,
-        initialCameraPosition: _cameraPosition,  // Posição inicial do mapa
+        initialCameraPosition: _cameraPosition,  
         onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);  // Completa o controller do Google Map
+          _controller.complete(controller);  
         },
-        markers: _markers,  // Passando os marcadores para o mapa
+        markers: _markers,  
       ),
     );
   }

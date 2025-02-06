@@ -24,7 +24,6 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Quadrante de "Contatos"
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
@@ -53,13 +52,12 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 20),
-                // Quadrante de "Mapa"
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const MapSample()), // Tela do mapa
+                        MaterialPageRoute(builder: (context) => const MapSample()), 
                       );
                     },
                     child: Container(

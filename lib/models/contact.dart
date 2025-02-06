@@ -13,7 +13,6 @@ class Contact {
     required this.email,
   });
 
-  // Converter um Map para um objeto Contact
   factory Contact.fromMap(Map<String, dynamic> map) {
     return Contact(
       id: map['id'],
@@ -24,7 +23,6 @@ class Contact {
     );
   }
 
-  // Converter um objeto Contact para Map (para inserção no banco)
   Map<String, dynamic> toMap() {
     return {
       'nome': nome,
