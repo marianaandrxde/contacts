@@ -17,13 +17,19 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
 
+    // Exclui o banco de dados para reiniciar o desenvolvimento
+    // **Somente durante o desenvolvimento**
+    await deleteDatabase(path);
+
     return await openDatabase(
       path,
-      version: 1,
+      version: 2, // Atualiza para a versão 2
       onCreate: _createDB,
+      onUpgrade: _onUpgrade, // Lida com a atualização do banco
     );
   }
 
+  // Função de criação do banco na primeira vez
   Future<void> _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE users (
@@ -38,11 +44,20 @@ class DatabaseHelper {
       CREATE TABLE contacts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
-        coordenada TEXT NOT NULL,
-        email TEXT NOT NULL,
-        userId INTEGER NOT NULL,
-        FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE
-      )
+        latitude REAL NOT NULL,  -- Alteração: tipo REAL para latitude
+        longitude REAL NOT NULL, -- Alteração: tipo REAL para longitude
+        email TEXT NOT NULL      )
     ''');
+  }
+
+  // Função para atualizar o banco quando a versão mudar
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      // Atualiza a tabela contacts para incluir latitude e longitude
+      await db.execute('''
+        ALTER TABLE contacts ADD COLUMN latitude REAL;
+        ALTER TABLE contacts ADD COLUMN longitude REAL;
+      ''');
+    }
   }
 }

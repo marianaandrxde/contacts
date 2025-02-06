@@ -15,18 +15,27 @@ class _UserFormScreenState extends State<UserFormScreen> {
   final UserController userController = UserController();
 
   void _registerUser() async {
-    await userController.registerUser(
-      usernameController.text,
-      emailController.text,
-      senhaController.text,
-    );
-    Navigator.pop(context); 
+  final result = await userController.registerUser(
+    usernameController.text,
+    emailController.text,
+    senhaController.text,
+  );
+
+  if (result > 0) {
+    final users = await userController.fetchAllUsers();
+    print("Usuários cadastrados: $users");
+  } else {
+    print("Falha no cadastro");
   }
+
+  Navigator.pop(context);
+}
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Cadastro')),
+      appBar: AppBar(title: Text('Cadastro')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

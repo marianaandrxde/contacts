@@ -1,5 +1,7 @@
+import 'package:contacts/views/user_form.dart';
 import 'package:flutter/material.dart';
-import 'user_form.dart';
+import '../controllers/user_controller.dart';
+import 'home.dart'; 
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,6 +13,42 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
+  final UserController userController = UserController();
+
+  void _login() async {
+    String email = emailController.text.trim();
+    String senha = senhaController.text.trim();
+
+    Map<String, dynamic>? user = await userController.loginUser(email, senha);
+
+    if (user != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } else {
+      print('Falha no login: email ou senha incorretos');
+      _showErrorDialog();
+    }
+  }
+
+  void _showErrorDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Erro de Login"),
+          content: const Text("Email ou senha incorretos. Tente novamente."),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/logo.png', width: 150, height: 150), // Logo centralizada
+              Image.asset('assets/logo.png', width: 150, height: 150),
               const SizedBox(height: 20),
               TextField(
                 controller: emailController,
@@ -36,8 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                },
+                onPressed: _login,
                 child: const Text('Login'),
               ),
               const SizedBox(height: 10),
